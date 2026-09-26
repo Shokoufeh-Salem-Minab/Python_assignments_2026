@@ -1,22 +1,27 @@
-
+import library_utils as lu
+import random as rand
 
 books = ["Python 101", "Data Science", "Machine Learning"]
 books1 = ("Python 101", "John Smith", 2020)
-genres = {"Programmingm", "AI", "Math"}
+genres = {"Programming", "AI", "Math"}
 
 library = {
-    1: ("Python 101", "John Smith", 2020)
+    1: ("Python 101", "John Smith", 2020),
     2: ("Data Science", "Alice Brown", 2021)
 }
 
 
-def add_book(library, id, book):
-    print("Add a new book:")
-    id = int(input(""))
+lu.list_books(library)
+lu.add_book(library, 3, ("Java 101", "Jane Doe", 2013))
 
+print("\n")
 
-def search_book(library, title):
-    pass
+lu.search_book(library, "Java 101")
 
-def list_books(library):
-    pass
+print("\n")
+
+lu.list_books(library)
+
+print("\n")
+
+print(rand.choice(list(library.values())))
