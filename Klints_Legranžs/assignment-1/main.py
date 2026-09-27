@@ -36,13 +36,13 @@ print("Length of first name: " + str(len(first_name)))
 print("Length of last name: " + str(len(last_name)))
 
 for i in first_name:
-    if i in vowels:
+    if i.isalpha() and i in vowels:
         counter+=1
 print("Number of vowels in first name: " + str(counter))
 counter = 0
 
 for i in first_name:
-    if i not in vowels:
+    if i.isalpha() and i not in vowels:
         counter+=1
 print("Number of consonants in first name: " + str(counter))
 counter = 0
