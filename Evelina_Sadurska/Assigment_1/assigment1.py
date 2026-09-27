@@ -4,6 +4,8 @@
 name = input("Enter your first name: ")
 surname = input("Enter your last name: ")
 
+name = name.strip()
+surname = surname.strip()
 name = name.lower()
 surname = surname.lower()
 
@@ -20,26 +22,27 @@ vowel_count = 0
 consonant_count = 0
 
 for letter in name:
-    if letter in vowels:
-        vowel_count += 1
-    else:
-        consonant_count += 1
+    if letter.isalpha():
+        if letter in vowels:
+            vowel_count += 1
+        else:
+            consonant_count += 1
 
 print(f"Vowels in first name: {vowel_count}")
 print(f"Consonants in first name: {consonant_count}")
 
-name = name.upper()
-print(name)
-name = name.lower()
-print(name)
+print(f"First name (upper) {name.upper()}")
+print(f"First name lower {name.lower()}")
 
 reverse = surname[::-1]
-print(reverse)
+print(f"Last name (reversed) {reverse}")
 
  #Excersies for loop practice
+print("Characters in first name (for loop): ")
 for letter in name:
     print(letter)
 
+print("Characters in first name (while loop):")
 del_name = name
 while del_name:
     print(del_name[0])
@@ -54,12 +57,12 @@ else:
 
 
 password = name[0] + surname[-1] + str(name_len + surname_len)
-print(password)
+print(f"generated password {password}")
 
 #List methods practice
 n_list = list(surname)
 n_list.append("*")
-n_list.insert (0,"@")
+n_list.insert (0, "@")
 n_list.remove("r")
 n_list.reverse()
 print(n_list)
