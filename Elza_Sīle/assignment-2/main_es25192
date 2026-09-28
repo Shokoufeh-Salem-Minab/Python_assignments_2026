@@ -1,0 +1,20 @@
+import library_utils_module
+
+books = ["Python 101", "Data Science", "Machine Learning"]
+
+book1 = (books[0], "John Smith", 2020)
+book2 = (books[1], "Six Seven", 2014)
+book3 = (books[2], "Yolo Tralolo", 2006)
+
+genres = {"Programming", "AI", "Math"}
+
+library = {1 : book1,
+           2 : book2}
+
+library_utils_module.add_book(library, 3, book3)
+
+library_utils_module.search_book(library, "Machine Learning")
+
+library_utils_module.list_books(library)
+
+library_utils_module.random_book(library)
