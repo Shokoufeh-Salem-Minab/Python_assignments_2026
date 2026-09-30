@@ -57,7 +57,7 @@ for i in first_name:
 
 while len(first_name) != 0:
     print(first_name)
-    first_name = first_name[:len(first_name)-1]
+    first_name_reversed = first_name[:len(first_name)-1]
 
 #conditions
 
@@ -70,7 +70,8 @@ elif len(first_name) > len(last_name):
 
 
 #password
-password = "ks14"
+combined_name = len(first_name) + len(last_name)
+password = first_name[0] + last_name[-1] + str(combined_name)
 print("Generated password: " + password)
 
 name_chars = [char for char in last_name]
