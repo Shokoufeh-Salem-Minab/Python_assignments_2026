@@ -18,7 +18,7 @@ consonant_count = 0
 for letter in first_name:
     if letter.lower() in vowels:
         vowel_count += 1
-    else:
+    elif letter.isalpha():
         consonant_count += 1
 print("Vowels in first name: " + str(vowel_count))
 print("Consonants in first name: " + str(consonant_count))
@@ -35,12 +35,12 @@ print("Characters (for loop):")
 for character in first_name:
     print(character)
 
-# Print each character again with a while loop
+# Print each character again with a while loop (remove until the string is empty)
 print("Characters (while loop):")
-i = 0
-while i < len(first_name):
-    print(first_name[i])
-    i += 1
+name_copy = first_name
+while len(name_copy) > 0:
+    print(name_copy[0])
+    name_copy = name_copy[1:]
 
 # Compare the lengths of the two names
 if first_len > last_len:
@@ -51,7 +51,7 @@ else:
     print("Comparison result: Both names have the same length")
 
 # Build a simple password
-password = first_name[0] + last_name[0] + str(first_len + last_len)
+password = first_name[0] + last_name[-1] + str(first_len + last_len)
 print("Generated password: " + password)
 
 # List methods practice on the last name characters
