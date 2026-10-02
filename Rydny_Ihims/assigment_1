@@ -1,0 +1,66 @@
+first_name = input("Enter your first name: ")
+last_name = input("Enter your last name: ")
+
+# String analysis 
+print("Length of first name:", len(first_name))
+print("Length of last name:", len(last_name))
+
+vowels = "aeiou"
+vowel_count = 0
+consonant_count = 0
+
+for letter in first_name.lower():
+    if letter in vowels:
+        vowel_count += 1
+    elif letter.isalpha():
+        consonant_count += 1
+
+print("Vowels in first name:", vowel_count)
+print("Consonants in first name:", consonant_count)
+
+print("First name in uppercase:", first_name.upper())
+print("First name in lowercase:", first_name.lower())
+print("Last name reversed:", last_name[::-1])
+
+# Loops
+print("For Loop")
+for letter in first_name:
+    print(letter)
+
+print("While Loop")
+temp = first_name
+while len(temp) > 0:
+    print(temp)
+    temp = temp[1:]  # remove the first character
+
+#  Conditions
+print("Comparing Lengths")
+if len(first_name) > len(last_name):
+    print("Your first name is longer than your last name.")
+elif len(first_name) < len(last_name):
+    print("Your first name is shorter than your last name.")
+else:
+    print("Your first name and last name are the same length.")
+
+# Password 
+print("Personal Password")
+total_chars = len(first_name) + len(last_name)
+password = first_name[0] + last_name[-1] + str(total_chars)
+print("Your password is:", password)
+
+#  List methods
+print("List Methods")
+letters = list(last_name)
+print("Original list:", letters)
+
+letters.append("*")
+print("After append:", letters)
+
+letters.insert(0, "@")
+print("After insert:", letters)
+
+letters.pop(1)  # removes the character at position 1
+print("After pop:", letters)
+
+letters.reverse()
+print("After reverse:", letters)
