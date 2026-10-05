@@ -1,0 +1,80 @@
+movie = {
+    "title": "Inception",
+    "year": 2010,
+    "genres": ("Sci-Fi", "Thriller", "Drama"),
+    "actors": ["Leonardo DiCaprio", "Tom Hardy"],
+    "languages": {"English", "French"},
+    "rating": 8.8
+}
+
+def show_movie():
+    for i, value in movie.items():
+        print(f"{i}: {value}")
+def show_genres():
+    print("Genres:")
+    for i in movie["genres"]:
+        print(f"- {i}")
+    print(f"First genre: {movie["genres"][0]}")
+    print(f"Last genre: {movie["genres"][-1]}")
+def add_actor():
+    actor = input("Enter actor name: ")
+    movie["actors"].append(actor)
+    print("Actor added succesfully!")
+def remove_actor():
+    actor = input("Enter actor name: ")
+    try:
+        movie["actors"].remove(actor)
+        print(f"{actor} was removed!")
+    except:
+        print("Actor does not exist!")
+def add_language():
+    language = input("Enter language: ")
+    movie["languages"].add(language)
+    print("Language added succesfully!")
+def update_genre():
+    print("Current genres:")
+    print(movie["genres"])
+    genre_change = input("Enter the genre to change: ")
+    genre_new = input("Enter the new genre: ")
+    try:
+        genre_list = list(movie["genres"])
+        index = genre_list.index(genre_change)
+        genre_list[index] = genre_new
+        movie["genres"] = tuple(genre_list)
+    except:
+        print("Genre doesn`t exist")
+def search_genre():
+    genre = input("Enter genre: ")
+    if genre in movie["genres"]:
+        print(f"Yes! {genre} is one of the genres.")
+    else:
+        print(f"{genre} is not one of the genres.")
+def show_statistics():
+    print(f"Movie: {movie['title']}")
+    print(f"Year: {movie['year']}")
+    print(f"Rating: {movie['rating']}")
+    print(f"Number of genres: {len(movie['genres'])}")
+    print(f"Number of actors: {len(movie['actors'])}")
+    print(f"Number of languages: {len(movie['languages'])}")
+    print(f"Actors:\n{', '.join(movie['actors'])}")
+    print(f"Languages:\n{', '.join(movie['languages'])}")
+
+choice = 0
+while choice !=9:
+    choice = int(input("========== MOVIE NIGHT ==========\n1. Show movie information\n2. Show genres\n3. Add an actor\n4. Remove an actor\n5. Add a language\n6. Update a genre\n7. Search for a genre\n8. Show movie statistics\n9. Exit\n"))
+    if choice == 1:
+        show_movie()
+    elif choice == 2:
+        show_genres()
+    elif choice == 3:
+        add_actor()
+    elif choice == 4:
+        remove_actor()
+    elif choice == 5:
+        add_language()
+    elif choice == 6:
+        update_genre()
+    elif choice == 7:
+        search_genre()
+    elif choice == 8:
+        show_statistics()
