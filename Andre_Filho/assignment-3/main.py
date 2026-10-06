@@ -50,7 +50,7 @@ def update_genre():
     print("Current genres:", movie["genres"])
     old = input("Enter the genre to change: ")
     new = input("Enter the new genre: ")
-    # tuples cannot be changed directly, so turn it into a list, change it, and back to a tuple
+    # tuples cannot be changed directly
     genres = list(movie["genres"])
     if old in genres:
         genres[genres.index(old)] = new
