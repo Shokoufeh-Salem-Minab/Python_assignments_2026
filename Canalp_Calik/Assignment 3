@@ -1,1 +1,118 @@
+movie = {
+    "title": "Inception",
+    "year": 2010,
+    "genres": ("Sci-Fi", "Thriller", "Drama"),
+    "actors": ["Leonardo DiCaprio", "Tom Hardy"],
+    "languages": {"English", "French"},
+    "rating": 8.8
+}
 
+def show_movie_information():
+    for key, value in movie.items():
+        print(f"{key}: {value}")
+
+def show_genres():
+    print("Genres:")
+    for genre in movie["genres"]:
+        print(f"- {genre}")
+    
+    print(f"\nFirst genre: {movie['genres'][0]}")
+    print(f"Last genre: {movie['genres'][-1]}")
+
+def add_an_actor():
+    actor_name = input("Enter actor name: ")
+    movie["actors"].append(actor_name)
+    print("Actor added successfully!")
+
+def remove_an_actor():
+    actor_name = input("Enter actor name: ")
+    if actor_name in movie["actors"]:
+        movie["actors"].remove(actor_name)
+        print(f"{actor_name} was removed.")
+    else:
+        print(f"{actor_name} is not in the list.")
+
+def add_a_language():
+    language = input("Enter language: ")
+    movie["languages"].add(language)
+    print("Language added successfully!")
+
+def update_a_genre():
+    print("Current genres:")
+    print(movie["genres"])
+    old_genre = input("Enter the genre to change: ")
+    new_genre = input("Enter the new genre: ")
+    
+    genres_list = list(movie["genres"])
+    if old_genre in genres_list:
+        index = genres_list.index(old_genre)
+        genres_list[index] = new_genre
+        movie["genres"] = tuple(genres_list)
+        print("The new tuple should be:")
+        print(movie["genres"])
+    else:
+        print("Genre not found.")
+
+def search_for_a_genre():
+    genre = input("Enter genre: ")
+    if genre in movie["genres"]:
+        print(f"Yes! {genre} is one of the genres.")
+    else:
+        print(f"{genre} is not one of the genres.")
+
+def show_movie_statistics():
+    print("\n========== STATISTICS ==========")
+    print(f"Movie: {movie['title']}")
+    print(f"Year: {movie['year']}")
+    print(f"Rating: {movie['rating']}\n")
+    
+    print(f"Number of genres: {len(movie['genres'])}")
+    print(f"Number of actors: {len(movie['actors'])}")
+    print(f"Number of languages: {len(movie['languages'])}\n")
+    
+    actors_string = ", ".join(movie["actors"])
+    languages_string = ", ".join(movie["languages"])
+    
+    print("Actors:")
+    print(actors_string + "\n")
+    print("Languages:")
+    print(languages_string)
+
+def main():
+    while True:
+        print("\n========== MOVIE NIGHT ==========")
+        print("1. Show movie information")
+        print("2. Show genres")
+        print("3. Add an actor")
+        print("4. Remove an actor")
+        print("5. Add a language")
+        print("6. Update a genre")
+        print("7. Search for a genre")
+        print("8. Show movie statistics")
+        print("9. Exit")
+        
+        choice = input("\nSelect an option (1-9): ")
+        
+        if choice == '1':
+            show_movie_information()
+        elif choice == '2':
+            show_genres()
+        elif choice == '3':
+            add_an_actor()
+        elif choice == '4':
+            remove_an_actor()
+        elif choice == '5':
+            add_a_language()
+        elif choice == '6':
+            update_a_genre()
+        elif choice == '7':
+            search_for_a_genre()
+        elif choice == '8':
+            show_movie_statistics()
+        elif choice == '9':
+            break
+        else:
+            print("Invalid choice. Please select a number from 1 to 9.")
+
+if __name__ == "__main__":
+    main()
