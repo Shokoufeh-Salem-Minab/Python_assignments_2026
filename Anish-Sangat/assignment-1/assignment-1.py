@@ -5,7 +5,7 @@ last_name = input("Enter your last name: ")
 # stop the program if a name is empty, otherwise first_name[0] would crash later
 if len(first_name) == 0 or len(last_name) == 0:
     print("Error: names must not be empty.")
-    raise SystemExit
+    exit()
 
 # ---------- string analysis ----------
 
