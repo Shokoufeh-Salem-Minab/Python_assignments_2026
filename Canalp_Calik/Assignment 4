@@ -1,0 +1,235 @@
+import json
+import os
+
+
+class GradebookError(Exception):
+  pass
+
+
+class Student:
+
+  def __init__(self, student_id, name, grades=None):
+    self.student_id = student_id
+    self.name = name
+    self.grades = grades if grades is not None else {}
+    self.passing_grade = 10
+
+  def add_grade(self, course, grade):
+    if not isinstance(grade, (int, float)):
+      raise GradebookError("Grade must be a numeric value.")
+    if grade < 0 or grade > 20:
+      raise GradebookError("Grade must be between 0 and 20.")
+    self.grades[course] = grade
+
+  def get_average(self):
+    if not self.grades:
+      return 0.0
+    return sum(self.grades.values()) / len(self.grades)
+
+  def get_best_course(self):
+    if not self.grades:
+      return ("", 0.0)
+    best_course = max(self.grades, key=self.grades.get)
+    return (best_course, self.grades[best_course])
+
+  def is_failing(self):
+    if not self.grades:
+      return False
+    return self.get_average() < self.passing_grade
+
+  def __str__(self):
+    return (
+        f"ID: {self.student_id}, Name: {self.name}, Average:"
+        f" {self.get_average():.2f}"
+    )
+
+
+class GraduateStudent(Student):
+
+  def __init__(self, student_id, name, thesis_title, grades=None):
+    super().__init__(student_id, name, grades)
+    self.thesis_title = thesis_title
+    self.passing_grade = 14
+
+  def __str__(self):
+    return (
+        f"ID: {self.student_id}, Name: {self.name}, Thesis:"
+        f" {self.thesis_title}, Average: {self.get_average():.2f}"
+    )
+
+
+class Gradebook:
+
+  def __init__(self, filename="gradebook.json"):
+    self.filename = filename
+    self.students = {}
+    self.load_data()
+
+  def __len__(self):
+    return len(self.students)
+
+  def add_student(self, student):
+    if student.student_id in self.students:
+      raise GradebookError("Student ID already exists.")
+    self.students[student.student_id] = student
+
+  def get_student(self, student_id):
+    if student_id not in self.students:
+      raise GradebookError("Student ID not found.")
+    return self.students[student_id]
+
+  def get_all_courses(self):
+    courses = set()
+    for student in self.students.values():
+      courses.update(student.grades.keys())
+    return courses
+
+  def get_common_courses(self, id1, id2):
+    s1 = self.get_student(id1)
+    s2 = self.get_student(id2)
+    return set(s1.grades.keys()).intersection(set(s2.grades.keys()))
+
+  def get_ranking(self):
+    student_list = list(self.students.values())
+    return sorted(
+        student_list, key=lambda s: s.get_average(), reverse=True
+    )
+
+  def get_failing_students(self):
+    return [s for s in self.students.values() if s.is_failing()]
+
+  def save_data(self):
+    data = {}
+    for sid, student in self.students.items():
+      data[sid] = {
+          "type": (
+              "graduate" if isinstance(student, GraduateStudent) else "regular"
+          ),
+          "name": student.name,
+          "grades": student.grades,
+          "thesis_title": (
+              student.thesis_title
+              if isinstance(student, GraduateStudent)
+              else ""
+          ),
+      }
+    with open(self.filename, "w") as f:
+      json.dump(data, f, indent=4)
+
+  def load_data(self):
+    if not os.path.exists(self.filename):
+      return
+    try:
+      with open(self.filename, "r") as f:
+        data = json.load(f)
+        for sid, info in data.items():
+          if info["type"] == "graduate":
+            self.students[sid] = GraduateStudent(
+                sid, info["name"], info["thesis_title"], info["grades"]
+            )
+          else:
+            self.students[sid] = Student(sid, info["name"], info["grades"])
+    except Exception:
+      pass
+
+
+def main():
+  gb = Gradebook()
+  while True:
+    print("\n--- Student Gradebook Menu ---")
+    print("1. Add student (regular or graduate)")
+    print("2. Add or update a grade")
+    print("3. Show all students")
+    print("4. Show ranking (highest to lowest average)")
+    print("5. Show failing students")
+    print("6. Show common courses of two students")
+    print("7. Save and exit")
+
+    choice = input("Enter your choice (1-7): ").strip()
+
+    try:
+      if choice == "1":
+        sid = input("Enter student ID: ").strip()
+        if not sid:
+          raise GradebookError("Student ID cannot be empty.")
+        name = input("Enter student name: ").strip()
+        if not name:
+          raise GradebookError("Name cannot be empty.")
+        stype = (
+            input("Is this a graduate student? (y/n): ").strip().lower()
+        )
+        if stype == "y":
+          thesis = input("Enter thesis title: ").strip()
+          student = GraduateStudent(sid, name, thesis)
+        else:
+          student = Student(sid, name)
+        gb.add_student(student)
+        print("Student added successfully.")
+
+      elif choice == "2":
+        sid = input("Enter student ID: ").strip()
+        student = gb.get_student(sid)
+        course = input("Enter course name: ").strip()
+        if not course:
+          raise GradebookError("Course name cannot be empty.")
+        grade_input = input("Enter grade (0-20): ").strip()
+        try:
+          grade = float(grade_input)
+        except ValueError:
+          raise GradebookError("Grade must be a numeric value.")
+        student.add_grade(course, grade)
+        c, g = student.get_best_course()
+        print(
+            f"Grade added successfully. Best course so far: {c} with grade"
+            f" {g}"
+        )
+
+      elif choice == "3":
+        if len(gb) == 0:
+          print("No students in the gradebook.")
+        else:
+          for student in gb.students.values():
+            print(student)
+
+      elif choice == "4":
+        ranking = gb.get_ranking()
+        if not ranking:
+          print("No students to rank.")
+        else:
+          print(f"Ranking ({len(gb)} students total):")
+          for student in ranking:
+            print(student)
+
+      elif choice == "5":
+        failing = gb.get_failing_students()
+        if not failing:
+          print("No failing students.")
+        else:
+          print("Failing students:")
+          for student in failing:
+            print(student)
+
+      elif choice == "6":
+        id1 = input("Enter first student ID: ").strip()
+        id2 = input("Enter second student ID: ").strip()
+        common = gb.get_common_courses(id1, id2)
+        if not common:
+          print("No common courses found between these students.")
+        else:
+          print(f"Common courses: {', '.join(common)}")
+
+      elif choice == "7":
+        gb.save_data()
+        print("Data saved. Exiting program.")
+        break
+      else:
+        print("Invalid choice. Please enter a number between 1 and 7.")
+
+    except GradebookError as e:
+      print(f"Error: {e}")
+    except Exception as e:
+      print(f"An unexpected error occurred: {e}")
+
+
+if __name__ == "__main__":
+  main()
