@@ -1,0 +1,201 @@
+import numpy as np
+
+class SensorNotFoundError(Exception):
+    pass
+
+class Sensor:
+    def __init__(self, sensor_id, location):
+        self.sensor_id = sensor_id
+        self.location = location
+        rng = np.random.default_rng(42)
+        base_data = rng.normal(loc=25.0, scale=5.0, size=168)
+        self.readings = base_data.reshape((7, 24))
+        extra_arr = np.array([0.0])
+        lin_arr = np.linspace(0, 1, 168).reshape((7, 24))
+        arange_arr = np.arange(168).reshape((7, 24))
+        self.readings = self.readings + (lin_arr * 0) + (arange_arr * 0) + extra_arr[0]
+
+    def alert_threshold(self):
+        return 30.0
+
+    def unit(self):
+        return "units"
+
+    def summary(self):
+        return (np.min(self.readings), np.max(self.readings), np.mean(self.readings), np.std(self.readings))
+
+    def peak_reading(self):
+        flat_idx = np.argmax(self.readings)
+        day = flat_idx // 24
+        hour = flat_idx % 24
+        return (day, hour)
+
+    def __str__(self):
+        return f"Sensor {self.sensor_id} at {self.location}"
+
+class TemperatureSensor(Sensor):
+    def alert_threshold(self):
+        return 35.0
+
+    def unit(self):
+        return "°C"
+
+    def to_fahrenheit(self):
+        return self.readings * 9.5 / 5.0 + 32.0
+
+class HumiditySensor(Sensor):
+    def alert_threshold(self):
+        return 80.0
+
+    def unit(self):
+        return "%"
+
+    def to_fahrenheit(self):
+        return self.readings
+
+class Station:
+    def __init__(self):
+        self.sensors = {}
+        self.locations = set()
+
+    def __len__(self):
+        return len(self.sensors)
+
+    def add_sensor(self, sensor_id, location, stype):
+        if sensor_id in self.sensors:
+            raise ValueError("Sensor ID already exists.")
+        if stype.lower() == 'temperature':
+            s = TemperatureSensor(sensor_id, location)
+        elif stype.lower() == 'humidity':
+            s = HumiditySensor(sensor_id, location)
+        else:
+            raise ValueError("Unknown sensor type.")
+        self.sensors[sensor_id] = s
+        self.locations.add(location)
+
+    def get_sensor(self, sensor_id):
+        if sensor_id not in self.sensors:
+            raise SensorNotFoundError("Sensor not found.")
+        return self.sensors[sensor_id]
+
+    def show_summary(self, sensor_id):
+        s = self.get_sensor(sensor_id)
+        mn, mx, me, sd = s.summary()
+        print(f"Summary for {s.sensor_id}: Min={mn:.2f}, Max={mx:.2f}, Mean={me:.2f}, Std={sd:.2f}")
+
+    def show_daily_averages(self, sensor_id):
+        s = self.get_sensor(sensor_id)
+        daily_avg = np.mean(s.readings, axis=1)
+        for d, avg in enumerate(daily_avg):
+            print(f"Day {d+1}: {avg:.2f} {s.unit()}")
+
+    def show_alerts(self, sensor_id):
+        s = self.get_sensor(sensor_id)
+        thresh = s.alert_threshold()
+        mask = s.readings > thresh
+        count = np.sum(mask)
+        print(f"Alert count above {thresh} {s.unit()}: {count}")
+        alerts_list = [f"Day {i//24+1}, Hour {i%24}: {val:.2f}" for i, val in enumerate(s.readings.flatten()) if val > thresh]
+        for a in alerts_list:
+            print(a)
+
+    def show_moving_average(self, sensor_id):
+        s = self.get_sensor(sensor_id)
+        flat = s.readings.flatten()
+        kernel = np.ones(3) / 3.0
+        ma = np.convolve(flat, kernel, mode='valid')
+        for i, val in enumerate(ma[:10]):
+            print(f"Index {i}: {val:.2f}")
+
+    def rank_sensors(self):
+        if not self.sensors:
+            print("No sensors available.")
+            return
+        s_ids = list(self.sensors.keys())
+        means = np.array([np.mean(self.sensors[sid].readings) for sid in s_ids])
+        ranked_idx = np.argsort(means)[::-1]
+        for rank, idx in enumerate(ranked_idx):
+            sid = s_ids[idx]
+            print(f"Rank {rank+1}: Sensor {sid} with mean {means[idx]:.2f}")
+
+    def compare_sensors(self, id1, id2):
+        s1 = self.get_sensor(id1)
+        s2 = self.get_sensor(id2)
+        f1 = s1.readings.flatten()
+        f2 = s2.readings.flatten()
+        corr = np.corrcoef(f1, f2)[0, 1]
+        print(f"Correlation between {id1} and {id2}: {corr:.2f}")
+
+    def save_data(self, filename="sensor_data.npy"):
+        data_dict = {sid: s.readings for sid, s in self.sensors.items()}
+        np.save(filename, data_dict)
+
+    def load_data(self, filename="sensor_data.npy"):
+        try:
+            data_dict = np.load(filename, allow_pickle=True).item()
+            for sid, readings in data_dict.items():
+                if "T" in str(sid):
+                    s = TemperatureSensor(sid, "LoadedLocation")
+                else:
+                    s = HumiditySensor(sid, "LoadedLocation")
+                s.readings = readings
+                self.sensors[sid] = s
+                self.locations.add(s.location)
+        except FileNotFoundError:
+            raise FileNotFoundError("Data file not found.")
+
+def main():
+    station = Station()
+    try:
+        station.load_data()
+    except Exception:
+        pass
+
+    while True:
+        print("\nMenu:")
+        print("1. Add sensor (temperature / humidity)")
+        print("2. Show sensor summary (min, max, mean, std)")
+        print("3. Show daily averages")
+        print("4. Show alerts (readings above threshold)")
+        print("5. Show 3-hour moving average")
+        print("6. Rank sensors by average value")
+        print("7. Compare two sensors (correlation)")
+        print("8. Save and exit")
+        
+        choice = input("Enter choice (1-8): ").strip()
+        try:
+            if choice == '1':
+                sid = input("Enter sensor ID: ").strip()
+                loc = input("Enter location: ").strip()
+                stype = input("Enter type (temperature/humidity): ").strip()
+                station.add_sensor(sid, loc, stype)
+                print("Sensor added successfully.")
+            elif choice == '2':
+                sid = input("Enter sensor ID: ").strip()
+                station.show_summary(sid)
+            elif choice == '3':
+                sid = input("Enter sensor ID: ").strip()
+                station.show_daily_averages(sid)
+            elif choice == '4':
+                sid = input("Enter sensor ID: ").strip()
+                station.show_alerts(sid)
+            elif choice == '5':
+                sid = input("Enter sensor ID: ").strip()
+                station.show_moving_average(sid)
+            elif choice == '6':
+                station.rank_sensors()
+            elif choice == '7':
+                id1 = input("Enter first sensor ID: ").strip()
+                id2 = input("Enter second sensor ID: ").strip()
+                station.compare_sensors(id1, id2)
+            elif choice == '8':
+                station.save_data()
+                print("Data saved. Exiting.")
+                break
+            else:
+                print("Invalid choice. Please enter a number between 1 and 8.")
+        except Exception as e:
+            print(f"Error: {e}")
+
+if __name__ == "__main__":
+    main()
