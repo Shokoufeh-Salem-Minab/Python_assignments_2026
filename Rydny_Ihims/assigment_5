@@ -1,0 +1,269 @@
+import numpy as np
+
+DATA_FILE = "station.npz"
+DAYS, HOURS = 7, 24
+
+
+class SensorNotFoundError(Exception):
+    pass
+
+class InvalidInputError(Exception):
+    pass
+
+class Sensor:
+    def __init__(self, sensor_id, location, readings=None, seed=0):
+        self.sensor_id = sensor_id
+        self.location = location
+        self.readings = readings if readings is not None else self.simulate(seed)
+
+    def simulate(self, seed):
+        rng = np.random.default_rng(seed)
+        noise = rng.normal(self.base_value(), self.spread(), DAYS * HOURS).reshape(DAYS, HOURS)
+        # small day/night wave added to every day by broadcasting
+        wave = np.sin(np.linspace(0, 2 * np.pi, HOURS)) * self.spread()
+        return noise + wave
+
+    def base_value(self):
+        return 0
+
+    def spread(self):
+        return 1
+
+    def unit(self):
+        return ""
+
+    def alert_threshold(self):
+        return 0
+
+    def kind(self):
+        return "sensor"
+
+    def summary(self):
+        return self.readings.min(), self.readings.max(), self.readings.mean()
+
+    def peak(self):
+        day, hour = np.unravel_index(self.readings.argmax(), self.readings.shape)
+        return day + 1, hour
+
+    def lowest(self):
+        day, hour = np.unravel_index(self.readings.argmin(), self.readings.shape)
+        return day + 1, hour
+
+    def daily_average(self):
+        return self.readings.mean(axis=1)
+
+    def hourly_average(self):
+        return self.readings.mean(axis=0)
+
+    def normalized(self):
+        return self.readings - self.readings.mean(axis=1, keepdims=True)
+
+    def alert_mask(self):
+        return self.readings > self.alert_threshold()
+    def alert_labels(self):
+        return np.where(self.alert_mask(), "alert", "ok")
+
+    def alert_records(self):
+        days, hours = np.nonzero(self.alert_mask())
+        values = self.readings[self.alert_mask()]
+        return [(d + 1, h, v) for d, h, v in zip(days, hours, values)]
+
+    def moving_average(self):
+        return np.convolve(self.readings.flatten(), np.ones(3) / 3, mode="valid")
+
+    def __str__(self):
+        return f"[{self.sensor_id}] {self.kind()} at {self.location}, avg {self.readings.mean():.2f} {self.unit()}"
+
+
+class TemperatureSensor(Sensor):
+    def base_value(self):
+        return 22
+
+    def spread(self):
+        return 3
+
+    def unit(self):
+        return "C"
+
+    def alert_threshold(self):
+        return 26
+
+    def kind(self):
+        return "temperature"
+
+    def to_fahrenheit(self):
+        return self.readings * 9 / 5 + 32
+    
+class HumiditySensor(Sensor):
+    def base_value(self):
+        return 55
+
+    def spread(self):
+        return 8
+
+    def unit(self):
+        return "%"
+
+    def alert_threshold(self):
+        return 70
+
+    def kind(self):
+        return "humidity"
+
+
+class Station:
+    def __init__(self):
+        self.sensors = {}
+
+    def add(self, sensor):
+        if sensor.sensor_id in self.sensors:
+            raise InvalidInputError("Sensor ID already exists.")
+        self.sensors[sensor.sensor_id] = sensor
+
+    def get(self, sensor_id):
+        if sensor_id not in self.sensors:
+            raise SensorNotFoundError(f"No sensor with ID {sensor_id}.")
+        return self.sensors[sensor_id]
+
+    def locations(self):
+        return {s.location for s in self.sensors.values()}
+    def shared_locations(self):
+        temp = {s.location for s in self.sensors.values() if isinstance(s, TemperatureSensor)}
+        hum = {s.location for s in self.sensors.values() if isinstance(s, HumiditySensor)}
+        return temp & hum
+
+    def ranking(self):
+        ids = np.array(list(self.sensors.keys()))
+        averages = np.array([s.readings.mean() for s in self.sensors.values()])
+        order = np.argsort(averages)[::-1]
+        return ids[order], averages[order]
+
+    def correlation(self, id1, id2):
+        a = self.get(id1).readings.flatten()
+        b = self.get(id2).readings.flatten()
+        return np.corrcoef(a, b)[0, 1]
+
+    def save(self):
+        sensors = list(self.sensors.values())
+        readings = np.array([s.readings for s in sensors]) if sensors else np.empty((0, DAYS, HOURS))
+        np.savez(DATA_FILE,
+                 ids=np.array([s.sensor_id for s in sensors], dtype=str),
+                 kinds=np.array([s.kind() for s in sensors], dtype=str),
+                 locations=np.array([s.location for s in sensors], dtype=str),
+                 readings=readings)
+
+    def load(self):
+        try:
+            data = np.load(DATA_FILE)
+        except FileNotFoundError:
+            print("No saved data found, starting with an empty station.")
+            return
+        classes = {"temperature": TemperatureSensor, "humidity": HumiditySensor}
+        for sid, kind, loc, values in zip(data["ids"], data["kinds"], data["locations"], data["readings"]):
+            self.sensors[str(sid)] = classes[str(kind)](str(sid), str(loc), values)
+
+    def __len__(self):
+        return len(self.sensors)
+
+def ask_sensor(station, text="Sensor ID: "):
+    return station.get(input(text).strip())
+
+
+def add_sensor(station):
+    sensor_id = input("Sensor ID: ").strip()
+    location = input("Location: ").strip()
+    if not sensor_id or not location:
+        raise InvalidInputError("ID and location cannot be empty.")
+    kind = input("Type (t = temperature, h = humidity): ").strip().lower()
+    classes = {"t": TemperatureSensor, "h": HumiditySensor}
+    if kind not in classes:
+        raise InvalidInputError("Type must be t or h.")
+    station.add(classes[kind](sensor_id, location, seed=42 + len(station)))
+    print("Sensor added with 7 days of simulated data.")
+
+
+def show_summary(station):
+    sensor = ask_sensor(station)
+    low, high, mean = sensor.summary()
+    day, hour = sensor.peak()
+    low_day, low_hour = sensor.lowest()
+    u = sensor.unit()
+    print(sensor)
+    print(f"min {low:.2f} {u} | max {high:.2f} {u} | mean {mean:.2f} {u} | std {sensor.readings.std():.2f}")
+    print(f"Highest reading: day {day}, hour {hour}:00")
+    print(f"Lowest reading: day {low_day}, hour {low_hour}:00")
+    print(f"Hour with highest average: {sensor.hourly_average().argmax()}:00")
+    if isinstance(sensor, TemperatureSensor):
+        print(f"Mean in Fahrenheit: {sensor.to_fahrenheit().mean():.2f} F")
+
+def show_daily(station):
+    sensor = ask_sensor(station)
+    averages = np.round(sensor.daily_average(), 2)
+    spread = np.round(np.abs(sensor.normalized()).max(axis=1), 2)
+    for day in range(DAYS):
+        print(f"Day {day + 1}: avg {averages[day]} {sensor.unit()}, max gap from daily mean {spread[day]}")
+
+def show_alerts(station):
+    sensor = ask_sensor(station)
+    records = sensor.alert_records()
+    per_day = (sensor.alert_labels() == "alert").sum(axis=1)
+    print(f"Threshold: {sensor.alert_threshold()} {sensor.unit()} | alerts: {len(records)}")
+    print("Alerts per day:", per_day)
+    for day, hour, value in records:
+        print(f"  day {day}, {hour}:00 -> {value:.2f} {sensor.unit()}")
+
+
+def show_moving_average(station):
+    sensor = ask_sensor(station)
+    print("3-hour moving average for day 1:")
+    print(np.round(sensor.moving_average()[:HOURS - 2], 2))
+
+
+def show_ranking(station):
+    if len(station) == 0:
+        print("No sensors yet.")
+        return
+    ids, averages = station.ranking()
+    for place, (sid, avg) in enumerate(zip(ids, averages), start=1):
+        print(f"{place}. {sid} - {avg:.2f} {station.get(str(sid)).unit()}")
+    print("Locations:", ", ".join(sorted(station.locations())))
+    print("Locations with both types:", ", ".join(sorted(station.shared_locations())) or "none")
+def compare_sensors(station):
+    id1 = input("First sensor ID: ").strip()
+    id2 = input("Second sensor ID: ").strip()
+    print(f"Correlation: {station.correlation(id1, id2):.2f}")
+
+
+def print_menu():
+    print("\n1. Add sensor")
+    print("2. Show sensor summary")
+    print("3. Show daily averages")
+    print("4. Show alerts")
+    print("5. Show 3-hour moving average")
+    print("6. Rank sensors by average")
+    print("7. Compare two sensors")
+    print("8. Save and exit")
+
+
+def main():
+    station = Station()
+    station.load()
+    actions = {"1": add_sensor, "2": show_summary, "3": show_daily, "4": show_alerts,
+               "5": show_moving_average, "6": show_ranking, "7": compare_sensors}
+    while True:
+        print_menu()
+        choice = input("Choose an option: ").strip()
+        if choice == "8":
+            station.save()
+            print("Data saved. Bye!")
+            break
+        if choice not in actions:
+            print("Invalid option, try again.")
+            continue
+        try:
+            actions[choice](station)
+        except (SensorNotFoundError, InvalidInputError) as e:
+            print("Error:", e)
+
+if __name__ == "__main__":
+    main()
