@@ -1,0 +1,7 @@
+name,exam1,exam2,exam3,homework,exam_average,homework_score,final_score,status,excellent,recovery_score
+Anna,85,90,88,9,87.66666666666667,90,88.36666666666667,Pass,False,
+Peter,55,60,58,6,57.666666666666664,60,58.36666666666666,Fail,False,63.36666666666666
+Maria,95,92,98,10,95.0,100,96.5,Pass,True,
+John,70,65,72,8,69.0,80,72.3,Pass,False,
+Sofia,40,50,45,5,45.0,50,46.5,Fail,False,51.5
+David,88,91,86,10,88.33333333333333,100,91.83333333333333,Pass,False,
