@@ -1,0 +1,7 @@
+name,exam1,exam2,exam3,homework,exam_average,homework_score,final_score,status
+Maria,95,92,98,10,95.0,100.0,96.5,Pass
+David,88,91,86,10,88.33,100.0,91.83,Pass
+Anna,85,90,88,9,87.67,90.0,88.37,Pass
+John,70,65,72,8,69.0,80.0,72.3,Pass
+Peter,55,60,58,6,57.67,60.0,58.37,Fail
+Sofia,40,50,45,5,45.0,50.0,46.5,Fail
