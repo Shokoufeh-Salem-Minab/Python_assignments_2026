@@ -1,0 +1,177 @@
+import numpy as np
+import pandas as pd
+from functools import reduce
+
+students = [ {"name": "Anna", "exam1": 85, "exam2": 90, "exam3": 88, "homework": 9},
+{"name": "Peter", "exam1": 55, "exam2": 60, "exam3": 58, "homework": 6},
+{"name": "Maria", "exam1": 95, "exam2": 92, "exam3": 98, "homework": 10},
+{"name": "John", "exam1": 70, "exam2": 65, "exam3": 72, "homework": 8},
+{"name": "Sofia", "exam1": 40, "exam2": 50, "exam3": 45, "homework": 5},
+{"name": "David", "exam1": 88, "exam2": 91, "exam3": 86, "homework": 10}]
+
+#1
+def exam_average(student):
+    return (student["exam1"] + student["exam2"] + student["exam3"])/3
+
+def homework_score(student):
+    return (student["homework"]/10)*100
+
+def final_score(student):
+    return (0.7*exam_average(student) + 0.3*homework_score(student))
+
+def calculation():
+    results = []
+    for student in students:
+        average = exam_average(student)
+        homework = homework_score(student)
+        final = final_score(student)
+        if final >= 60:
+            status = "Pass" 
+        else:
+            status = "Fail"
+        if student["exam1"] >= 90 and student["exam2"] >= 90 and student["exam3"] >= 90:
+            excellent = True
+        else:
+            excellent = False
+        if final < 60:
+            recovery = min(final + 5, 100)
+        else:
+            recovery = final
+
+        results.append({"name": student["name"], "exam_average": average, "homework_score": homework, "final_score": final, "status": status, "excellent": excellent, "recovery_score": recovery})
+
+    for student in sorted(results, key=lambda d: d["final_score"], reverse=True):
+        print(student)
+
+    print("Class average:", sum(student["final_score"] for student in results) / len(results))
+
+calculation()
+
+
+#2
+class Student():
+    def __init__(self, student):
+        self.name = student["name"]
+        self.exam1 = student["exam1"]
+        self.exam2 = student["exam2"]
+        self.exam3 = student["exam3"]
+        self.homework = student["homework"]
+
+    def exam_average(self):
+        return (self.exam1 + self.exam2 + self.exam3)/3
+
+    def homework_score(self):
+        return (self.homework/10)*100
+
+    def final_score(self):
+        return (0.7*self.exam_average() + 0.3*self.homework_score())
+
+    def status(self):
+        if self.final_score() >= 60:
+            return "Pass" 
+        else:
+            return "Fail"
+
+    def excellent(self):
+        if self.exam1 >= 90 and self.exam2 >= 90 and self.exam3 >= 90:
+            return True
+        else:
+            return False
+
+    def recovery_score(self):
+        final = self.final_score()
+        if final < 60:
+            return min(final + 5, 100)
+        else:
+            return final
+
+class Classroom():
+    def __init__(self, students):
+        self.students = [Student(student) for student in students]
+
+    def class_average(self):
+        return sum(student.final_score() for student in self.students) / len(self.students)
+
+    def filter_students(self, filter):
+        return [student for student in self.students if filter(student)]
+
+    def rank_students(self):
+        return sorted(self.students, key=lambda d: d.final_score(), reverse=True)
+
+classroom = Classroom(students)
+
+for student in classroom.rank_students():
+    print(f"name: {student.name}, exam average: {student.exam_average()}, homework score: {student.homework_score()}, final score: {student.final_score()}, status: {student.status()}, excellent: {student.excellent()}, recovery score: {student.recovery_score()}")
+print("Class average:", classroom.class_average())
+print("Students with final score >= 80:", [student.name for student in classroom.filter_students(lambda s: s.final_score()>=80)])
+
+
+#3
+def exam_average_fp(student):
+    return (student["exam1"] + student["exam2"] + student["exam3"])/3
+
+def homework_score_fp(student):
+    return student["homework"]*10
+
+def final_score_fp(student):
+    return 0.7*exam_average_fp(student) + 0.3*homework_score_fp(student)
+
+def calculation_fp(student):
+    return ({**student, "exam_average": exam_average_fp(student), "homework_score": homework_score_fp(student), "final_score": final_score_fp(student), "status": "Pass" if final_score_fp(student) >= 60 else "Fail", "excellent": min(student["exam1"], student["exam2"], student["exam3"]) >= 90, "recovery_score": min(final_score_fp(student) + 5, 100)if final_score_fp(student) < 60 else final_score_fp(student)})
+
+results_fp = list(map(calculation_fp, students))
+passed_fp = list(filter(lambda s: s["final_score"] >= 60, results_fp))
+ranked_fp = sorted(results_fp, key=lambda s: s["final_score"], reverse=True)
+total_fp = reduce(lambda total, s: total + s["final_score"], results_fp, 0)
+
+for student in ranked_fp:
+    print(student["name"], student["final_score"], student["status"])
+
+print("Class average:", total_fp / len(results_fp))
+print("Passed:", [student["name"] for student in passed_fp])
+
+
+#4
+exam_scores = np.array([[s["exam1"], s["exam2"], s["exam3"]] for s in students])
+
+averages = np.mean(exam_scores, axis=1)
+
+print("exam scores:\n", exam_scores)
+print("student averages:", averages)
+print("highest exam scores:", np.max(exam_scores, axis=0))
+print("lowest exam scores:", np.min(exam_scores, axis=0))
+print("exam means:", np.mean(exam_scores, axis=0))
+print("exam medians:", np.median(exam_scores, axis=0))
+print("exam standard deviations:", np.std(exam_scores, axis=0))
+print("students with exam average >= 85:", np.array([s["name"] for s in students])[averages >= 85])
+
+
+#5
+df = pd.DataFrame(students)
+df["exam_average"] = df[["exam1", "exam2", "exam3"]].mean(axis=1)
+df["homework_score"] = df["homework"]*10
+df["final_score"] = 0.7*df["exam_average"] + 0.3*df["homework_score"]
+df["status"] = ["Pass" if x >= 60 else "Fail" for x in df["final_score"]]
+print(df)
+print(f"How many passed/failed:\n {df["status"].value_counts()}")
+print(f"Students that passed:\n {df[df["status"] == "Pass"]}")
+print(f"Average scores by Pass/Fail:\n {df.groupby("status")[["exam_average", "homework_score", "final_score"]].mean()}")
+df.to_csv("student_report.csv", index=False)
+print("Report saved as student_report.csv")
+
+
+#6
+#Procedural programming uses both functions and loops to calculate results step by step.
+#It can become hard to maintain for large programs, but easier to understand for people and beginners.
+
+#Object-oriented programming is very organised and helps to keep future data in the same organised manner,
+#but it can be unnecessary for small programs.
+#The student objects have a set format for their scores and and methds while the classroom manages and combines them all.
+
+#Functional programming compacts everything to a mathematical type function style.
+#It is less intuitive for beginners to programming, but it makes the data transformation not change the original data.
+
+#Numpy is useful when numerical calculations are needed.
+#It performs them quickly and efficiently compared to using loops for the same result.
+
+#Pandas is useful for data analysis that is structured in tables. It makes filtering and grouping easy.
