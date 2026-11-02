@@ -1,0 +1,20 @@
+# Comparison and Reflection
+#
+# Procedural: the program is a list of steps with functions, loops and if statements.
+# It is the easiest to read and write for a small task like this one, but when the
+# program grows, data and functions are separated and it gets harder to organize.
+#
+# OOP: data and behaviour are kept together in classes (Student knows how to calculate
+# its own score, Classroom manages the list). It is good for bigger programs and is easy
+# to extend (for example a new type of student), but it needs more code and planning
+# and is a bit too much for a small calculation.
+#
+# Functional: small independent functions without side effects, map/filter/reduce/sorted
+# instead of loops, and the original data is never changed. The code is short and easy to
+# test, but lambdas and reduce can be harder to read, and creating new copies of data
+# can use more memory.
+#
+# NumPy is useful when working with numbers in arrays - calculations on whole rows/columns
+# without loops are faster and shorter (mean(axis=...), boolean masks).
+# Pandas is useful for table data with names and different column types - it makes filtering,
+# sorting, grouping and exporting to CSV very easy, so it is the best choice for reports.
