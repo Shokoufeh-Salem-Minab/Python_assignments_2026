@@ -1,0 +1,29 @@
+[
+  {
+    "id": "mk22026",
+    "name": "Berat",
+    "grades": {
+      "Math": 15.0
+    },
+    "graduate": false,
+    "thesis_title": ""
+  },
+  {
+    "id": "st23000",
+    "name": "Steve",
+    "grades": {
+      "Math": 14.0
+    },
+    "graduate": false,
+    "thesis_title": ""
+  },
+  {
+    "id": "fail1",
+    "name": "Failure",
+    "grades": {
+      "Math": 5.0
+    },
+    "graduate": false,
+    "thesis_title": ""
+  }
+]
