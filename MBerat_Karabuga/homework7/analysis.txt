@@ -1,0 +1,34 @@
+HW 7 - Sales Data Analysis
+Dataset: 24 sales records, 6 products, 2 categories, 4 regions.
+Total revenue: $42,512.00
+Total quantity sold: 165 items
+
+1. Which product generated the highest revenue?
+Phone, with $15,480.00 in combined revenue.
+
+2. Which category generated the most revenue?
+Electronics, with $37,180.00 in revenue (87.5% of the total).
+
+3. Which region performed best?
+East, with $11,977.00 in revenue.
+
+4. What can you conclude from your analysis?
+Revenue is driven mainly by electronics products. Phone is the strongest individual product, and East is the highest-revenue region.
+
+Revenue by product:
+- Phone: $15,480.00
+- Laptop: $13,220.00
+- Tablet: $8,480.00
+- Headphones: $2,598.00
+- Keyboard: $1,651.00
+- Mouse: $1,083.00
+
+Revenue by category:
+- Electronics: $37,180.00
+- Accessories: $5,332.00
+
+Revenue by region:
+- East: $11,977.00
+- North: $11,508.00
+- South: $9,542.00
+- West: $9,485.00

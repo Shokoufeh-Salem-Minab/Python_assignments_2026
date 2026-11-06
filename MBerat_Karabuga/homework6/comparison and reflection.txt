@@ -1,0 +1,7 @@
+Procedural Programming uses procedures functions and loops for completing a process iteratively. It is fairly straight forward for smaller but when code base gets large it gets harder to maintain the code.
+
+Object-Oriented Programming encapsulates all attributes related to the data and functionality inside the Student class. A Classroom object keeps track of all students in form of objects. This technique scales better for complex software. However to be useful it requires more classes and methods than required in this particular assignment.
+
+Functional Programming uses functions like map(), filter(), reduce() and sorted() functions. Functional programing is easy to test and it avoids mutating inputs to functions. However nested functions can be challenging to read by new programmers.
+
+NumPy is highly suitable for numeric array manipulations and computations, whereas pandas is best for labeled tables, filtering, grouping, sorting and exporting tables to csv files.
