@@ -1,0 +1,24 @@
+Sales Data Analysis
+===================
+
+1. Which product generated the highest revenue?
+   Phone, with $44,800.00.
+
+2. Which category generated the most revenue?
+   Electronics, with $69,800.00 (89.0% of total revenue).
+
+3. Which region performed best?
+   West, with $21,400.00.
+
+4. What can you conclude from your analysis?
+Revenue is mostly impacted by price, not the volume of items sold. Mice sold the most units (46) but generated the least revenue, while Phones sold only 28 units but generated the most revenue.
+
+Phones and Laptops together account for about 87% of total revenue, even though they make up only 30% of the total units sold.
+
+Accessories (Mouse, Keyboard, Headphones) are high-volume but low-value products because they have high unit sales but generate relatively low revenue.
+
+The East, South and West regions have relatively similar revenue, but the West is the weakest-performing region.
+
+Based on the histogram, the distribution of revenue per transaction appears to be skewed to the right because a few high-value sales increase the overall revenue.
+
+A limitation is that the dataset contains only 18 records, so the conclusions are indicative rather than statistically conclusive.
