@@ -1,0 +1,19 @@
+Sales Data Analysis - Assignment 7
+==================================
+
+1. Which product generated the highest revenue?
+   Phone generated the highest total revenue: EUR 14,320.00.
+
+2. Which category generated the most revenue?
+   Electronics generated EUR 30,240.00, making it the highest-revenue category.
+
+3. Which region performed best?
+   South performed best, with total sales revenue of EUR 11,475.00.
+
+4. What can you conclude from your analysis?
+   The dataset produced total revenue of EUR 37,110.00. Electronics accounts
+   for most of this revenue, mainly because laptops and phones have much higher
+   prices than accessories. Mice had the greatest quantity sold (53 units),
+   but their low unit price means they generated less revenue than phones.
+   Focusing promotion and stock availability on high-value electronics,
+   especially in the South region, should support revenue growth.
