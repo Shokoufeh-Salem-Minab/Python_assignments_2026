@@ -1,0 +1,23 @@
+Homework 7 - Sales Data Analysis
+Lasse Johannis
+
+1. Which product generated the highest revenue?
+The Phone generated the highest revenue with 16100 EUR (23 phones sold at 700 EUR).
+The Laptop is second with 12350 EUR.
+
+2. Which category generated the most revenue?
+Mobile generated the most revenue with 16100 EUR, which is 44.7% of the total revenue
+of 36045 EUR. Computers (Laptop and Tablet) are close behind with 15050 EUR (41.8%).
+
+3. Which region performed best?
+The South region performed best with 11460 EUR, followed by North with 10720 EUR.
+East (7650 EUR) and West (6215 EUR) are clearly lower.
+
+4. What can you conclude from your analysis?
+Most of the revenue (about 79%) comes from the two expensive products, phones and
+laptops. The Mouse is the most sold product with 47 pieces, but because it only
+costs 25 EUR it brings the lowest revenue (1175 EUR). So a high quantity does not mean
+a high revenue - the price matters more. The histogram also shows that most single
+sales are small (under 1200 EUR) and only a few big laptop and phone sales bring the
+high values. To increase revenue, the shop should focus on phones and laptops,
+especially in the East and West regions where sales are lower.
