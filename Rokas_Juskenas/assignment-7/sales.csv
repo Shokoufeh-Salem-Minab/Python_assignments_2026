@@ -1,0 +1,17 @@
+Product,Category,Quantity,Price,Region
+Laptop,Electronics,3,1000,North
+Phone,Electronics,7,600,South
+Headphones,Accessories,12,150,East
+Mouse,Accessories,15,30,West
+Keyboard,Accessories,8,50,North
+Laptop,Electronics,4,1050,South
+Phone,Electronics,9,580,East
+Headphones,Accessories,6,140,West
+Mouse,Accessories,10,25,North
+Keyboard,Accessories,5,55,South
+Laptop,Electronics,2,1100,East
+Phone,Electronics,8,620,West
+Headphones,Accessories,14,150,North
+Mouse,Accessories,11,30,South
+Keyboard,Accessories,7,50,East
+Laptop,Electronics,5,980,West

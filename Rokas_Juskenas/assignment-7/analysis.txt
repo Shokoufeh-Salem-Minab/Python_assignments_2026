@@ -1,0 +1,18 @@
+Sales Data Analysis Summary
+===========================
+
+1. Which product generated the highest revenue?
+Answer: Phone made the most total revenue with $14,380.00.
+
+2. Which category generated the most revenue?
+Answer: The Electronics category made the most money overall, which came out to $28,680.00.
+
+3. Which region performed best?
+Answer: The West region had the best performance with total sales of $11,150.00.
+
+4. What can you conclude from your analysis?
+Conclusion:
+- Expensive tech items like Phones and Laptops bring in almost all of the money (80.8% of overall revenue comes from Electronics), even though people buy fewer of them compared to cheaper accessories.
+- Cheaper accessories like Mice, Keyboards, and Headphones sell a lot of items (high quantity sold) and are good add-on buys, but they don't bring in anywhere near as much gross revenue because the unit price is low.
+- Sales are pretty different depending on the region, and the West region made the most money out of all the areas.
+- Recommendation: The store should try to bundle accessories together with expensive devices when selling in top regions like West so customers spend more per order.
