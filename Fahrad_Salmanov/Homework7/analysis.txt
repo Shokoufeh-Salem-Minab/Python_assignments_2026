@@ -1,0 +1,23 @@
+Sales Data Analysis - Interpretation
+
+1. Which product generated the highest revenue?
+Phone generated the highest revenue with 22,580.00 in total, ahead of
+Laptop (16,570.00).
+
+2. Which category generated the most revenue?
+Electronics generated the most revenue with 39,150.00, which is about
+80% of the total revenue of 49,118.00. Accessories generated 9,968.00.
+
+3. Which region performed best?
+North performed best with 14,645.00 in revenue. South was second
+(12,975.00), followed by East (11,990.00) and West (9,508.00).
+
+4. What can you conclude from your analysis?
+Revenue is driven by price, not by volume. Mouse was the best-selling
+product by quantity (80 units) but produced very little revenue because
+each unit is cheap. Phones and Laptops sold far fewer units (28 and 14)
+but together make up most of the revenue, so Electronics is the key
+category for the business. North is the strongest region, mainly
+because it recorded the largest single sale (10 Phones, 7,800.00), while
+West is the weakest and could use more sales effort. Headphones are a
+solid middle option, earning more than Keyboards and Mice combined.
