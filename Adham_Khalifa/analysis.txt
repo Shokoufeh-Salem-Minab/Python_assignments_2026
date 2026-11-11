@@ -1,0 +1,16 @@
+HOMEWORK 7 - SALES DATA ANALYSIS
+
+1. Product with the highest revenue:
+Phone - 14180.00
+
+2. Category with the highest revenue:
+Electronics - 22760.00
+
+3. Region with the highest revenue:
+North - 7860.00
+
+4. Conclusion:
+The dataset contains 20 sales records. Total revenue is 26545.00.
+Phone generated the highest revenue, Electronics was the strongest
+category, and North was the best-performing region. The charts make it
+easier to compare product revenue, category shares and individual sale values.
