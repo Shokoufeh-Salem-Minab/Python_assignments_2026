@@ -1,0 +1,17 @@
+Product,Category,Quantity,Price,Region,Total_Sales
+Phone,Mobile,7,650,North,4550
+Laptop,Computers,4,1000,West,4000
+Phone,Mobile,5,700,South,3500
+Laptop,Computers,3,950,North,2850
+Phone,Mobile,3,800,East,2400
+Tablet,Computers,5,450,North,2250
+Laptop,Computers,2,1100,East,2200
+Tablet,Computers,4,400,South,1600
+Headphones,Accessories,8,120,East,960
+Headphones,Accessories,6,150,West,900
+Headphones,Accessories,4,130,South,520
+Keyboard,Accessories,10,45,North,450
+Keyboard,Accessories,9,50,East,450
+Mouse,Accessories,20,20,North,400
+Mouse,Accessories,15,25,West,375
+Mouse,Accessories,12,30,South,360

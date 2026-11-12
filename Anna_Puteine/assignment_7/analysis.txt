@@ -1,0 +1,21 @@
+# Sales Analysis
+#
+# Which product generated the highest revenue?
+# Phone, with 10450 in revenue (37.6% of the total 27765). Laptop is close behind with 9050.
+#
+# Which category generated the most revenue?
+# Computers, with 12900 (46.5%). It is the top category even though Phone is the top single
+# product, because it combines Laptop and Tablet sales. Mobile has 10450 and Accessories 4415.
+#
+# Which region performed best?
+# North, with 10500 in revenue. That is much more than the other regions, which are all
+# close to each other: East 6010, South 5980, West 5275.
+#
+# What can you conclude from your analysis?
+# Revenue depends on price much more than on quantity. Mouse sold the most units (47) but made
+# one of the lowest revenues (1135), while Laptop sold only 9 units and made 9050. Expensive
+# products (Phone, Laptop, Tablet) bring in about 84% of the revenue. The histogram shows that
+# most single sales are small (under 1000) and only a few big sales bring most of the money.
+# North is the strongest region, mainly because of the biggest single sale (7 phones, 4550).
+# To grow revenue it makes sense to focus on expensive products and to look at why the other
+# regions sell less than North.
