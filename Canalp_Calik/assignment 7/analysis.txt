@@ -1,0 +1,12 @@
+Which product generated the highest revenue?
+Phones generated the highest revenue, totaling $7,200.
+
+Which category generated the most revenue?
+The Electronics category generated the most revenue, totaling $17,000, significantly outperforming Accessories.
+
+Which region performed best?
+The North region was the best performing territory, bringing in the highest total sales at $6,960.
+
+What can you conclude from your analysis?
+Electronics drive the core revenue for the business, specifically heavily priced items like phones and laptops. Despite moving higher quantities of certain accessories like mice and headphones, their lower price points 
+prevent them from competing in overall revenue. Marketing and inventory focus should prioritize the North region and Electronics category for maximum profitability.
