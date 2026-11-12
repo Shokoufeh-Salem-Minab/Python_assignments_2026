@@ -1,0 +1,25 @@
+SALES DATA ANALYSIS - ANSWERS
+
+1. Which product generated the highest revenue?
+   Phone generated the highest revenue: $22,780.00
+   (49.1% of total revenue of $46,363.00).
+
+2. Which category generated the most revenue?
+   The Mobile category generated the most revenue: $22,780.00
+   (49.1% of total revenue).
+
+3. Which region performed best?
+   The South region performed best with $13,368.00
+   in sales (28.8% of total revenue).
+
+4. What can you conclude from your analysis?
+   - High-priced products drive revenue more than high volume. Phone was not the
+     best-selling item by units, yet it earned the most because of its high price.
+   - Mouse sold the most units (46), but because it is cheap it
+     contributes little revenue. Mouse earned the least revenue overall ($1,145.00).
+   - The Mobile category is the main source of income, so the business should
+     keep strong stock and promotion for these products.
+   - Revenue is spread across all regions, but South leads. Weaker regions could be
+     targeted with marketing or promotions.
+   - Most individual sales are small (low revenue per record), with a few large sales
+     (Laptops and Phones) pulling the total up, as seen in the histogram.
