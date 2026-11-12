@@ -1,0 +1,21 @@
+1. Which product generated the highest revenue?
+
+Phone generated the highest revenue ($15,200).
+
+----------------------------------------------------
+
+2. Which category generated the most revenue?
+
+Mobile generated the most revenue ($15,200).
+
+----------------------------------------------------
+
+3. Which region performed best?
+
+West performed best ($12,075 in total sales).
+
+----------------------------------------------------
+
+4. What can you conclude from your analysis?
+
+High-priced items (Phones and Laptops) drive the majority of total revenue despite selling in lower quantities, while lower-priced items (Mice and Keyboards) sell in high volumes but contribute a smaller share of overall revenue.

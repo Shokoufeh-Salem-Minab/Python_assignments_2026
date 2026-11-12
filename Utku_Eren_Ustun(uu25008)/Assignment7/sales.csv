@@ -1,0 +1,16 @@
+Product,Category,Quantity,Price,Region
+Laptop,Computers,3,1200,North
+Phone,Mobile,8,800,South
+Headphones,Audio,12,150,East
+Mouse,Accessories,15,25,West
+Keyboard,Accessories,10,75,North
+Laptop,Computers,2,1200,East
+Phone,Mobile,6,800,West
+Headphones,Audio,9,150,South
+Mouse,Accessories,20,25,North
+Keyboard,Accessories,7,75,East
+Laptop,Computers,4,1200,West
+Phone,Mobile,5,800,North
+Headphones,Audio,14,150,West
+Mouse,Accessories,18,25,South
+Keyboard,Accessories,11,75,South
