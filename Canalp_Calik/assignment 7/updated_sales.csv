@@ -1,0 +1,16 @@
+Product,Category,Quantity,Price,Region,Total_Sales
+Phone,Electronics,5,800.0,South,4000.0
+Phone,Electronics,4,800.0,North,3200.0
+Laptop,Electronics,3,1000.0,East,3000.0
+Tablet,Electronics,5,600.0,West,3000.0
+Laptop,Electronics,2,1000.0,North,2000.0
+Headphones,Accessories,10,150.0,East,1500.0
+Tablet,Electronics,2,600.0,East,1200.0
+Keyboard,Accessories,6,100.0,North,600.0
+Monitor,Electronics,2,300.0,South,600.0
+Mouse,Accessories,12,50.0,North,600.0
+Webcam,Accessories,7,80.0,North,560.0
+Headphones,Accessories,3,150.0,West,450.0
+Mouse,Accessories,8,50.0,West,400.0
+Keyboard,Accessories,4,100.0,South,400.0
+Webcam,Accessories,2,80.0,South,160.0
