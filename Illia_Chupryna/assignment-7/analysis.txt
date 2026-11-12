@@ -1,0 +1,11 @@
+Sales Data Analysis
+
+Product with highest revenue: Phone (13040.00)
+Category with highest revenue: Electronics (28100.00)
+Best region: South (10408.00)
+
+Conclusion:
+The dataset contains 20 sales records and total revenue is 32771.00.
+Phone generated the most revenue. Electronics was the best category,
+and South was the best-performing region. The business can use these results
+to focus on its strongest products and markets.
