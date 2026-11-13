@@ -1,0 +1,26 @@
+Homework 7 - Sales Data Analysis - Interpretation
+
+1. Which product generated the highest revenue?
+The Phone generated the highest revenue with 13,020 € (20 units sold).
+The Laptop follows in second place with 9,450 €, even though only 10 laptops were sold.
+
+2. Which category generated the most revenue?
+The Mobile category (Phone and Tablet) generated the most revenue with 16,280 €,
+which is about 49% of the total revenue of 32,925 €.
+Computers follow with 11,590 € (about 35%), Audio with 3,050 € and Accessories with 2,005 €.
+
+3. Which region performed best?
+The North region performed best with 10,485 € in sales, followed by East (8,840 €).
+South (6,877 €) and West (6,723 €) are clearly behind.
+
+4. What can you conclude from your analysis?
+- Revenue is driven by price, not by quantity. Mouse and Keyboard are sold most often
+  (46 and 19 units), but because they are cheap they bring in only about 6% of the revenue.
+- Phones and Laptops together make up almost 70% of the total revenue, so the business
+  depends strongly on these two expensive products.
+- The histogram shows that most single sales are below 1,500 €, while only a few big
+  sales (Phones and Laptops) reach 2,000 - 5,700 €.
+- North is the strongest region, mainly because of one large Phone sale (5,670 €).
+  South and West could be improved, for example with more promotion of high-price products.
+- The dataset is small (20 records), so these conclusions are only a first impression and
+  should be checked with more data.
