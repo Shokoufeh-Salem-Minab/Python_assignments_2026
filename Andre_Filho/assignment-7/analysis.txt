@@ -1,0 +1,13 @@
+Andre Filho - Homework 7 - Sales Data Analysis
+
+Which product generated the highest revenue?
+The Phone generated the highest revenue: 16800.00 in total. The Laptop is second with 12713.97. Headphones, Keyboard and Mouse are far behind (3288.40, 1621.50 and 1402.75).
+
+Which category generated the most revenue?
+The Phones category generated the most revenue: 16800.00, which is 46.9% of the total revenue of 35826.62. Computers have 35.5% and Accessories have 17.6%.
+
+Which region performed best?
+The North region performed best with 10911.47 in sales. After it come South (9616.10), West (9246.25) and East (6052.80).
+
+What can you conclude from your analysis?
+The most expensive products bring most of the money. Phones and Laptops are only 42 of the 188 items sold, but they make 82% of the revenue. Mice are the product sold most often (73 items) but they are only 3.9% of the revenue, because each one costs about 20. So selling more items does not mean more revenue: the price matters more than the quantity here. The North region sells the most, and the East region sells the least. The dataset has only 18 sales, so these conclusions are only a small example and would need more data to be reliable.
